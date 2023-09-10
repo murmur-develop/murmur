@@ -1,6 +1,0 @@
-services:
-  type: web
-  name: voicevox_discord_bot
-  runtime: docker
-  rootDir: /
-  dockerCommand: docker container run --rm -it -p '127.0.0.1:50021:50021' voicevox_discord_bot
