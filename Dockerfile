@@ -9,6 +9,6 @@ COPY requirements.txt /myapp
 
 RUN /opt/python/bin/pip3 install install -r /myapp/requirements.txt
 
-COPY start.sh start.sh
+COPY script.sh script.sh
 
-CMD ./start.sh
+CMD ./script.sh
