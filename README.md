@@ -2,6 +2,9 @@
 discordのチャットをvoicevoxで読み上げるためのdiscord botです。
 ffmpegのインストールが必要です。
 ## development
+
+### create .env file
+.env_sampleを参考にDiscord botのTokenを書いてください。
 ### setup enviroment(venv)
 ```bash
 python -m venv env
