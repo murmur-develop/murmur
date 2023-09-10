@@ -1,4 +1,4 @@
-# voicevox-discord
+# voicevox_discord_bot
 discordのチャットをvoicevoxで読み上げるためのdiscord botです。
 ffmpegのインストールが必要です。
 ## development
@@ -27,3 +27,6 @@ docker run --rm -it -p '127.0.0.1:50021:50021' voicevox/voicevox_engine:cpu-ubun
 ```bash
 python main.py
 ```
+## クレジット
+VOICEVOX  
+[VOICEVOX 公式ページ](https://voicevox.hiroshiba.jp/)
