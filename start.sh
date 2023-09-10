@@ -9,7 +9,7 @@ handler() {
 
 trap handler SIGTERM
 
-gosu user /opt/python/bin/python3 ./run.py --voicelib_dir /opt/voicevox_core/ --runtime_dir /opt/onnxruntime/lib --host 0.0.0.0 &
+gosu user /opt/python/bin/python3 ./run.py --voicelib_dir /opt/voicevox_core/ --runtime_dir /opt/onnxruntime/lib --host 127.0.0.1 --port 50021 &
 child_pid1=$!
 
 /opt/python/bin/python3 /myapp/main.py &
