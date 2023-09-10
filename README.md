@@ -27,6 +27,17 @@ docker run --rm -it -p '127.0.0.1:50021:50021' voicevox/voicevox_engine:cpu-ubun
 ```bash
 python main.py
 ```
+
+## docker
+### build
+```bash
+docker image build -t voicevox_discord_bot .
+```
+### container run
+```bash
+docker container run --rm -it --env-file ".env" -p '127.0.0.1:50021:50021' voicevox_discord_bot
+```
+
 ## クレジット
 VOICEVOX  
 [VOICEVOX 公式ページ](https://voicevox.hiroshiba.jp/)

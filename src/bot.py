@@ -1,3 +1,4 @@
+import logging
 import discord
 from discord.ext import commands
 import aiohttp
@@ -59,9 +60,10 @@ async def genarete_wav(text, speaker=1, filepath='./audio.wav', host='localhost'
                 try:
                     async with aiofiles.open(os.path.dirname(os.path.abspath(__file__)) + '/' + filepath, mode='wb') as f:
                         await f.write(await response.read())
-                    return True
+                    return f.name
                 except Exception as e:
                     print(f'error in synthesis : {e}')
+                    return False
     except Exception as e:
         print(f'error in session: {e}')
         return False
@@ -69,12 +71,12 @@ async def genarete_wav(text, speaker=1, filepath='./audio.wav', host='localhost'
 async def text_to_wav(text):
     global counter
     counter += 1
-    if counter > 100:
+    if counter > 2:
         counter = 0
     file_name = "temp" + str(counter) + ".wav"
-    file_path = './audio_tmp/' + file_name
+    file_path = 'audio_tmp/' + file_name
     result = await genarete_wav(text=text, filepath=file_path)
     if result:
-        return file_path
+        return result
     else:
         "Failed"
