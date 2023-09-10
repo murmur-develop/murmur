@@ -4,6 +4,9 @@ ffmpegのインストールが必要です。
 ## development
 
 ### create .env file
+```bash
+touch .env
+```
 .env_sampleを参考にDiscord botのTokenを書いてください。
 ### setup enviroment(venv)
 ```bash
@@ -28,7 +31,7 @@ docker run --rm -it -p '127.0.0.1:50021:50021' voicevox/voicevox_engine:cpu-ubun
 ```
 ### start bot
 ```bash
-python main.py
+python src/main.py
 ```
 
 ## docker
@@ -40,6 +43,13 @@ docker image build -t voicevox_discord_bot .
 ```bash
 docker container run --rm -it --env-file ".env" voicevox_discord_bot
 ```
+
+## commands
+`$join [voice_channel_name]`  
+ボイスチャンネルに接続します。  
+引数が無い場合はコマンドを入力したチャンネルに接続します。  
+`$bye`  
+ボイスチャンネルから退出します。
 
 ## クレジット
 VOICEVOX  
