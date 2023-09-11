@@ -11,6 +11,8 @@ counter = 0
 description = '''
 voicevoxの読み上げbot
 '''
+host = os.environ.get("VOICEVOX_HOST", "127.0.0.1")
+port = os.environ.get("VOICEVOX_PORT", "50021")
 
 intents = discord.Intents.default()
 intents.message_content = True
@@ -33,7 +35,7 @@ async def on_message(message:discord.message):
         members = message.channel.members
         if bot.user in members and message.author != bot.user and not message.content.startswith('$'):
             filename =  await text_to_wav(text=message.content)
-            if filename != "Failed":
+            if filename != "Failed" and filename is not None:
                 source = await discord.FFmpegOpusAudio.from_probe(source=filename)
                 message.guild.voice_client.play(source)
             else:
@@ -75,7 +77,7 @@ async def text_to_wav(text):
         counter = 0
     file_name = "temp" + str(counter) + ".wav"
     file_path = 'audio_tmp/' + file_name
-    result = await genarete_wav(text=text, filepath=file_path)
+    result = await genarete_wav(text=text, filepath=file_path, host=host)
     if result:
         return result
     else:

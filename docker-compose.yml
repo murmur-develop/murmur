@@ -1,0 +1,25 @@
+version: '3'
+services:
+  bot:
+    container_name: discord-bot
+    restart: always
+    env_file:
+      - .env
+    build: .
+    tty: true
+    volumes:
+      - .:/bot
+    networks:
+      - mynetwork
+    depends_on:
+      - "voicevox"
+  voicevox:
+    image: voicevox/voicevox_engine:cpu-ubuntu20.04-latest
+    container_name: voicevox
+    restart: always
+    ports:
+      - "50021:50021"
+    networks:
+      - mynetwork
+networks:
+  mynetwork:

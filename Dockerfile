@@ -1,14 +1,13 @@
-FROM voicevox/voicevox_engine:cpu-ubuntu20.04-latest
+FROM python:3.11
 
 RUN apt-get update
 RUN apt-get install -y ffmpeg libnacl-dev python3-dev
 
-RUN mkdir /myapp
-COPY /src /myapp
-COPY requirements.txt /myapp
+WORKDIR /bot
 
-RUN /opt/python/bin/pip3 install install -r /myapp/requirements.txt
+COPY requirements.txt /bot
+RUN pip install --upgrade pip
+RUN pip install -r requirements.txt
 
-COPY script.sh script.sh
-
-CMD ./script.sh
+COPY /src /bot
+CMD ["python", "src/main.py"]
