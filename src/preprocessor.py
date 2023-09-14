@@ -18,6 +18,8 @@ romanization_table = load_romanization_table([
     path.join(path.dirname(__file__), "romanization/japanese.json")
 ])
 
+romanization_table_key_regexp = "|".join(map(re.escape, romanization_table.keys()))
+
 def preprocess_url(text: str):
     return re.sub(r"https?://(([a-zA-Z0-9]-)*[a-zA-Z0-9]+.)*[a-zA-Z0-9](-[a-zA-Z0-9]+)*(/[a-zA-Z0-9-.]+)*(\?[a-zA-Z0-9%=-]*)?/?", "URL省略", text)
 
@@ -25,10 +27,7 @@ def preprocess_emoji(text: str):
     return re.sub(r"<a?:([_a-zA-Z0-9-]+):[0-9]+>", r"\1", text)
 
 def preprocess_alphabet(text: str):
-    for k, v in romanization_table.items():
-        text = text.replace(k, v)
-
-    return text
+    return re.sub(romanization_table_key_regexp, lambda k: romanization_table[k.group()], text)
 
 def preprocess_text(text: str):
     processors = [
