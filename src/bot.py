@@ -6,6 +6,7 @@ import aiofiles
 import os
 import json
 from preprocessor import preprocess_text
+from io import BytesIO
 
 counter = 0
 
@@ -35,14 +36,14 @@ async def on_message(message:discord.message):
     if channel_type is discord.channel.VoiceChannel:
         members = message.channel.members
         if bot.user in members and message.author != bot.user and not message.content.startswith('$'):
-            filename =  await text_to_wav(text=preprocess_text(message.content))
-            if filename != "Failed" and filename is not None:
-                source = await discord.FFmpegOpusAudio.from_probe(source=filename)
+            buf =  await genarete_sound(text=preprocess_text(message.content), host=host, port=port)
+            if buf:
+                source = discord.FFmpegOpusAudio(source=buf, pipe=True)
                 message.guild.voice_client.play(source)
             else:
                 await message.channel.send('audio failed')
 
-async def genarete_wav(text, speaker=1, filepath='./audio.wav', host='localhost', port='50021', speed='100', pitch='0'):
+async def genarete_sound(text, speaker=1, host='localhost', port='50021', speed='100', pitch='0') -> BytesIO:
     params = (
         ('text', text),
         ('speaker', speaker),
@@ -61,25 +62,10 @@ async def genarete_wav(text, speaker=1, filepath='./audio.wav', host='localhost'
                 if response.status != 200:
                     return False
                 try:
-                    async with aiofiles.open(os.path.dirname(os.path.abspath(__file__)) + '/' + filepath, mode='wb') as f:
-                        await f.write(await response.read())
-                    return f.name
+                    return BytesIO(await response.read())
                 except Exception as e:
                     print(f'error in synthesis : {e}')
                     return False
     except Exception as e:
         print(f'error in session: {e}')
         return False
-
-async def text_to_wav(text):
-    global counter
-    counter += 1
-    if counter > 2:
-        counter = 0
-    file_name = "temp" + str(counter) + ".wav"
-    file_path = 'audio_tmp/' + file_name
-    result = await genarete_wav(text=text, filepath=file_path, host=host)
-    if result:
-        return result
-    else:
-        "Failed"
