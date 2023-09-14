@@ -3,6 +3,8 @@ services:
   bot:
     container_name: discord-bot
     restart: always
+    environment:
+      - VOICEVOX_HOST=voicevox
     env_file:
       - .env
     build: .

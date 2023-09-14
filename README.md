@@ -1,14 +1,13 @@
 # voicevox_discord_bot
-discordのチャットをvoicevoxで読み上げるためのdiscord botです。
-ffmpegのインストールが必要です。
+discordのチャットをvoicevoxで読み上げるためのdiscord botです。  
 ## development
 
 ### create .env file
 ```bash
 touch .env
 ```
-.env_sampleを参考にDiscord botのTokenを書いてください。  
-docker-composeを使う場合は`VOICEVOX_HOST=voicevox`を追加してください。
+`.env_sample`を参考にDiscord botのTokenを書いてください。  
+外部のVOICEVOXサーバーを使用する場合は`VOICEVOX_HOST=`で設定してください。
 ### use docker-compose
 #### build
 ```bash
@@ -19,6 +18,7 @@ docker compose build
 docker compose up
 ```
 ### use venv and VOICEVOX docker image
+ffmpegのインストールが必要です。
 #### setup enviroment(venv)
 ```bash
 python -m venv env
