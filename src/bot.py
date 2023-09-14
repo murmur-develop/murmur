@@ -5,6 +5,7 @@ import aiohttp
 import aiofiles
 import os
 import json
+from preprocessor import preprocess_text
 
 counter = 0
 
@@ -34,7 +35,7 @@ async def on_message(message:discord.message):
     if channel_type is discord.channel.VoiceChannel:
         members = message.channel.members
         if bot.user in members and message.author != bot.user and not message.content.startswith('$'):
-            filename =  await text_to_wav(text=message.content)
+            filename =  await text_to_wav(text=preprocess_text(message.content))
             if filename != "Failed" and filename is not None:
                 source = await discord.FFmpegOpusAudio.from_probe(source=filename)
                 message.guild.voice_client.play(source)
