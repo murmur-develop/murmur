@@ -26,7 +26,6 @@ class Text2SpeechQueue:
 
     queue: list[SpeakTask] = []
 
-    is_running = False
     _tasks: set[asyncio.Task] = set()
 
     def __init__(self, bot: commands.Bot, voicevox: Voicevox):
@@ -35,8 +34,6 @@ class Text2SpeechQueue:
 
     def add(self, task: SpeakTask):
         self.queue.append(task)
-        if not self.is_running:
-            self.run()
 
     def shift(self) -> SpeakTask | None:
         if len(self.queue) <= 0: return None
@@ -56,17 +53,15 @@ class Text2SpeechQueue:
             self.create_task(next_fn())
 
         async def next_fn():
+            await asyncio.sleep(0.05)
+
             task = self.shift()
             if task is not None:
                 if task.source and type(task.guild.voice_client) is discord.VoiceClient:
                     task.guild.voice_client.play(task.source, after=after_fn)
                 else:
                     await task.message.reply('audio failed')
-            else:
-                self.is_running = False
-
-        if self.is_running: return
-        self.is_running = True
+                    after_fn(None)
 
         print("-- hogehoge")
         self.create_task(next_fn())
