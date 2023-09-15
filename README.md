@@ -1,5 +1,5 @@
 # murmur
-_囁き声のように優しいbot_  
+_囁き声のように優しい読み上げbot_  
 discordのボイスチャットをvoicevoxで読み上げるためのbotです。  
 ## development
 
