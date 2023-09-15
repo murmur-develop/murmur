@@ -62,6 +62,9 @@ class Text2SpeechQueue:
                 else:
                     await task.message.reply('audio failed')
                     after_fn(None)
+            else:
+                await asyncio.sleep(0.1)
+                after_fn(None)
 
         print("-- hogehoge")
         self.create_task(next_fn())
