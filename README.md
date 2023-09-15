@@ -1,5 +1,6 @@
-# voicevox_discord_bot
-discordのチャットをvoicevoxで読み上げるためのdiscord botです。  
+# murmur
+_囁き声のように優しいbot_  
+discordのボイスチャットをvoicevoxで読み上げるためのbotです。  
 ## development
 
 ### create .env file
