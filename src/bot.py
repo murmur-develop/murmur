@@ -26,12 +26,11 @@ bot = commands.Bot(
 voicevox = Voicevox(host, int(port))
 voice_queue = Text2SpeechQueue(bot, voicevox)
 
-voice_queue.run()
-
 @bot.event
 async def on_ready():
     print(f'Logged in as {bot.user} (ID: {bot.user.id})')
     print('------')
+    voice_queue.run()
 
 @bot.listen()
 async def on_message(message:discord.Message):
