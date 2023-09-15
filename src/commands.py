@@ -10,9 +10,7 @@ class ReadingAloud(commands.Cog):
         """join voice channel"""
         target_channel = channel
         if target_channel is None:
-            if type(ctx.channel) is discord.VoiceChannel:
-                target_channel = ctx.channel
-            else:
+            if type(ctx.channel) is not discord.VoiceChannel:
                 embed = discord.Embed(
                     title="Error",
                     color=discord.Color.brand_red(),
@@ -24,6 +22,8 @@ Please join the voice channel or specify a valid channel as an argument."""
                 embed.set_author(name=self.bot.user)
                 await ctx.send(embed=embed)
                 return
+
+            target_channel = ctx.channel
         if type(ctx.voice_client) is discord.VoiceClient:
             return await ctx.voice_client.move_to(target_channel)
 
