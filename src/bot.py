@@ -31,11 +31,16 @@ async def on_ready():
     print('------')
 
 @bot.listen()
-async def on_message(message:discord.message):
-    channel_type = type(message.channel)
-    if channel_type is discord.channel.VoiceChannel:
+async def on_message(message:discord.Message):
+    if type(message.channel) is discord.channel.VoiceChannel:
         members = message.channel.members
-        if bot.user in members and message.author != bot.user and not message.content.startswith('$'):
+        if (
+            bot.user in members
+            and message.author != bot.user
+            and not message.content.startswith('$')
+            and message.guild
+            and type(message.guild.voice_client) is discord.VoiceClient
+        ):
             buf =  await genarete_sound(text=preprocess_text(message.content), host=host, port=port)
             if buf:
                 source = discord.FFmpegOpusAudio(source=buf, pipe=True)
@@ -43,7 +48,7 @@ async def on_message(message:discord.message):
             else:
                 await message.channel.send('audio failed')
 
-async def genarete_sound(text, speaker=1, host='localhost', port='50021', speed='100', pitch='0') -> BytesIO:
+async def genarete_sound(text, speaker=1, host='localhost', port='50021', speed='100', pitch='0') -> BytesIO | None:
     params = (
         ('text', text),
         ('speaker', speaker),
@@ -52,7 +57,7 @@ async def genarete_sound(text, speaker=1, host='localhost', port='50021', speed=
         async with aiohttp.ClientSession() as session:
             async with session.post(f'http://{host}:{port}/audio_query', params=params, timeout=30) as query_res:
                 if query_res.status != 200:
-                    return False
+                    return None
                 headers = {'Content-Type': 'application/json'}
                 query_json = await query_res.json()
                 query_json["outputSamplingRate"] = 24000
@@ -60,12 +65,12 @@ async def genarete_sound(text, speaker=1, host='localhost', port='50021', speed=
                 query_json["pitchScale"] = int(pitch) / 100
             async with session.post(f'http://{host}:{port}/synthesis', headers=headers, params=params, data=json.dumps(query_json), timeout=30) as response:
                 if response.status != 200:
-                    return False
+                    return None
                 try:
                     return BytesIO(await response.read())
                 except Exception as e:
                     print(f'error in synthesis : {e}')
-                    return False
+                    return None
     except Exception as e:
         print(f'error in session: {e}')
-        return False
+        return None
