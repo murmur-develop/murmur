@@ -2,13 +2,24 @@ import aiohttp
 import json
 from io import BytesIO
 from dataclasses import dataclass
+import re
+from discord.message import Guild
 
 @dataclass
 class Voicevox:
     host: str
     port: int
 
-    async def genarete_sound(self, text: str, speaker=1, speed=100, pitch=0) -> BytesIO | None:
+    async def genarete_sound(self, text: str, guild: Guild, speaker=1, speed=100, pitch=0) -> BytesIO | None:
+        # Mention先のUserID取得
+        mention_id = re.search('[0-9]+', text)
+        if mention_id is not None:
+            member = guild.get_member(int(mention_id.group()))
+            if member is not None:
+                user_name = member.display_name
+                # @{user_id} を @{display_name}さん に置き換える
+                text = text.replace(mention_id.group(), user_name + 'さん')
+
         params = (
             ('text', text),
             ('speaker', speaker),
