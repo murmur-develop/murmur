@@ -12,9 +12,11 @@ load_dotenv()
 token = os.environ.get("BOT_TOKEN", "DISCORD_BOT_TOKEN")
 host = os.environ.get("VOICEVOX_HOST", "127.0.0.1:50021")
 
+
 async def main():
     async with bot:
         await bot.add_cog(ReadingAloud(bot))
         await bot.start(token=token)
+
 
 asyncio.run(main())

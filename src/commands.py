@@ -1,12 +1,15 @@
 import discord
 from discord.ext import commands
 
+
 class ReadingAloud(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
     @commands.command()
-    async def join(self, ctx: commands.Context, *, channel: discord.VoiceChannel | None = None):
+    async def join(
+        self, ctx: commands.Context, *, channel: discord.VoiceChannel | None = None
+    ):
         """join voice channel"""
         target_channel = channel
         if target_channel is None:
