@@ -20,7 +20,7 @@ docker compose up
 ```
 ### use venv and VOICEVOX docker image
 ffmpegのインストールが必要です。
-#### setup enviroment(venv)
+#### setup environment(venv)
 ```bash
 python -m venv env
 ```
