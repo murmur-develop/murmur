@@ -10,18 +10,9 @@ services:
     build: .
     tty: true
     volumes:
-      - .:/bot
+      - ./src:/bot/src
     networks:
       - mynetwork
-    depends_on:
-      - "voicevox"
-  voicevox:
-    image: voicevox/voicevox_engine:cpu-ubuntu20.04-latest
-    container_name: voicevox
-    restart: always
-    ports:
-      - "50021:50021"
-    networks:
-      - mynetwork
+
 networks:
   mynetwork:
