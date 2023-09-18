@@ -46,4 +46,16 @@ class Voicevox:
         query.speed_scale = speed / 100
         query.pitch_scale = pitch / 100
 
-        return BytesIO(self.core.synthesis(query, speaker))
+        if len(text) < 25:
+            return BytesIO(self.core.synthesis(query, speaker))
+        else:
+
+            def _fn():
+                return BytesIO(self.core.synthesis(query, speaker))
+
+            try:
+                return await asyncio.wait_for(
+                    asyncio.wrap_future(self.thread_pool.submit(_fn)), timeout=120
+                )
+            except:
+                return None
