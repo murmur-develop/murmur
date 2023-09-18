@@ -43,7 +43,7 @@ async def on_message(message:discord.Message):
         and type(message.guild.voice_client) is discord.VoiceClient
         and message.guild.voice_client.is_connected()
     ):
-        buf = await voicevox.genarete_sound(text=preprocess_text(message.content))
+        buf = await voicevox.genarete_sound(text=preprocess_text(message.content), guild=message.guild)
         if buf is None:
             await message.reply('audio failed')
             return
