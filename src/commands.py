@@ -4,7 +4,7 @@ from discord.ext import commands
 
 
 class ReadingAloud(commands.Cog):
-    def __init__(self, bot):
+    def __init__(self, bot: commands.Bot):
         self.bot = bot
 
     @app_commands.command(name="join", description="botをボイスチャンネルに参加させます")
@@ -13,7 +13,7 @@ class ReadingAloud(commands.Cog):
         self,
         interaction: discord.Interaction,
         *,
-        channel: discord.VoiceChannel | None = None
+        channel: discord.VoiceChannel | None = None,
     ):
         """join voice channel"""
         target_channel = channel
@@ -42,7 +42,7 @@ Please join the voice channel or specify a valid channel as an argument."""
         embed = discord.Embed(
             title="Connect",
             color=discord.Color.brand_green(),
-            description="connect yomiage bot",
+            description=f"{self.bot.user}が接続しました",
         )
         embed.set_author(name=self.bot.user)
         await interaction.response.send_message(embed=embed)
@@ -66,8 +66,8 @@ Please join the voice channel or specify a valid channel as an argument."""
             await interaction.guild.voice_client.disconnect(force=True)
         embed = discord.Embed(
             title="Disconnect",
-            color=discord.Color.brand_green(),
-            description="disconnect yomiage bot",
+            color=discord.Color.greyple(),
+            description=f"{self.bot.user}が退出しました",
         )
         embed.set_author(name=self.bot.user)
         await interaction.response.send_message(embed=embed)
