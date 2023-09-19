@@ -1,7 +1,5 @@
-import logging
 import discord
 from discord.ext import commands
-import os
 from preprocessor import preprocess_text
 from voicevox import Voicevox
 from textToSpeechQueue import Text2SpeechQueue, SpeakTask
@@ -29,6 +27,7 @@ voice_queue = Text2SpeechQueue(bot, voicevox)
 async def on_ready():
     print(f"Logged in as {bot.user} (ID: {bot.user.id})")
     print("------")
+    await bot.tree.sync()
     voice_queue.run()
 
 

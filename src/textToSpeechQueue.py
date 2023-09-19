@@ -1,6 +1,6 @@
 import discord
 from discord.ext import commands
-from typing import cast, Any, Coroutine
+from typing import cast, Coroutine
 from voicevox import Voicevox
 import asyncio
 
@@ -69,5 +69,4 @@ class Text2SpeechQueue:
                 await asyncio.sleep(0.1)
                 after_fn(None)
 
-        print("-- hogehoge")
         self.create_task(next_fn())

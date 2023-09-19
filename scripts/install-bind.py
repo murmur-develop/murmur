@@ -1,5 +1,4 @@
 import os, sys, platform, subprocess
-import requests
 from util import download
 
 

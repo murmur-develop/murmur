@@ -1,5 +1,3 @@
-import aiohttp
-import json
 from io import BytesIO
 from dataclasses import dataclass
 import re
