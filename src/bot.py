@@ -1,7 +1,5 @@
-import logging
 import discord
 from discord.ext import commands
-import os
 from preprocessor import preprocess_text
 from voicevox import Voicevox
 from textToSpeechQueue import Text2SpeechQueue, SpeakTask

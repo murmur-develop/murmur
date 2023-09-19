@@ -3,16 +3,9 @@ services:
   bot:
     container_name: discord-bot
     restart: always
-    environment:
-      - VOICEVOX_HOST=voicevox
     env_file:
       - .env
     build: .
     tty: true
     volumes:
       - ./src:/bot/src
-    networks:
-      - mynetwork
-
-networks:
-  mynetwork:
