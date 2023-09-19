@@ -19,10 +19,10 @@ docker compose up
 ```
 
 ## commands
-`$join [voice_channel_name]`  
+`/join [voice_channel_name]`  
 ボイスチャンネルに接続します。  
 引数が無い場合はコマンドを入力したチャンネルに接続します。  
-`$bye`  
+`/bye`  
 ボイスチャンネルから退出します。
 
 ## クレジット
