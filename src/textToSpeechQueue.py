@@ -1,24 +1,26 @@
 import discord
 from discord.ext import commands
-from typing import cast, Any, Coroutine
+from typing import cast, Coroutine
 from voicevox import Voicevox
 import asyncio
 
+
 class SpeakTask:
-        message: discord.Message
-        source: discord.FFmpegOpusAudio
+    message: discord.Message
+    source: discord.FFmpegOpusAudio
 
-        def __init__(self, message: discord.Message, source: discord.FFmpegOpusAudio):
-            self.message = message
-            self.source = source
+    def __init__(self, message: discord.Message, source: discord.FFmpegOpusAudio):
+        self.message = message
+        self.source = source
 
-        @property
-        def channel(self):
-            return cast(discord.VoiceChannel, self.message.channel)
+    @property
+    def channel(self):
+        return cast(discord.VoiceChannel, self.message.channel)
 
-        @property
-        def guild(self):
-            return self.message.guild
+    @property
+    def guild(self):
+        return self.message.guild
+
 
 class Text2SpeechQueue:
     bot: commands.Bot
@@ -36,7 +38,8 @@ class Text2SpeechQueue:
         self.queue.append(task)
 
     def shift(self) -> SpeakTask | None:
-        if len(self.queue) <= 0: return None
+        if len(self.queue) <= 0:
+            return None
         return self.queue.pop(0)
 
     def create_task(self, c: Coroutine):
@@ -60,11 +63,10 @@ class Text2SpeechQueue:
                 if task.source and type(task.guild.voice_client) is discord.VoiceClient:
                     task.guild.voice_client.play(task.source, after=after_fn)
                 else:
-                    await task.message.reply('audio failed')
+                    await task.message.reply("audio failed")
                     after_fn(None)
             else:
                 await asyncio.sleep(0.1)
                 after_fn(None)
 
-        print("-- hogehoge")
         self.create_task(next_fn())
