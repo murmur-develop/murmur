@@ -6,6 +6,8 @@ import os
 from os import path
 import asyncio
 from concurrent.futures import ThreadPoolExecutor
+from SynthesisRunner import SynthesisRunner
+from typing import Awaitable
 
 voicevox_path = (
     os.environ["VOICEVOX_PATH"]
@@ -17,20 +19,23 @@ from voicevox_core import VoicevoxCore
 
 
 class Voicevox:
+    synthesis_runner: SynthesisRunner
     core: VoicevoxCore
-    thread_pool: ThreadPoolExecutor
 
     def __init__(
         self,
+        loop: asyncio.AbstractEventLoop,
         dict_dir=path.join(voicevox_path, "open_jtalk_dic_utf_8-1.11"),
         thread_pool=ThreadPoolExecutor(max_workers=8),
     ) -> None:
         self.core = VoicevoxCore(open_jtalk_dict_dir=dict_dir, load_all_models=True)
-        self.thread_pool = thread_pool
+        self.synthesis_runner = SynthesisRunner(
+            self.core, loop, thread_pool=thread_pool
+        )
 
-    async def genarete_sound(
+    def genarete_sound(
         self, text: str, guild: Guild, speaker=1, speed=100, pitch=0
-    ) -> BytesIO | None:
+    ) -> Awaitable[BytesIO | None]:
         # Mention先のUserID取得
         mention_id = re.search("[0-9]+", text)
         if mention_id is not None:
@@ -44,16 +49,11 @@ class Voicevox:
         query.speed_scale = speed / 100
         query.pitch_scale = pitch / 100
 
-        if len(text) < 25:
-            return BytesIO(self.core.synthesis(query, speaker))
-        else:
+        f: asyncio.Future = asyncio.Future()
 
-            def _fn():
-                return BytesIO(self.core.synthesis(query, speaker))
+        def _cb(res: bytes | None):
+            f.set_result(res and BytesIO(res))
 
-            try:
-                return await asyncio.wait_for(
-                    asyncio.wrap_future(self.thread_pool.submit(_fn)), timeout=120
-                )
-            except:
-                return None
+        self.synthesis_runner.synthesis(query, speaker, _cb)
+
+        return f

@@ -19,7 +19,7 @@ bot = commands.Bot(
     intents=intents,
 )
 
-voicevox = Voicevox()
+voicevox = Voicevox(bot.loop)
 voice_queue = Text2SpeechQueue(bot, voicevox)
 
 
@@ -29,6 +29,8 @@ async def on_ready():
     print("------")
     await bot.tree.sync()
     voice_queue.run()
+    voicevox.synthesis_runner.loop = bot.loop
+    voicevox.synthesis_runner.run()
 
 
 @bot.listen()
