@@ -165,3 +165,4 @@ voicevox_core/
 
 # voicevox downloader
 download.sh
+voicevox_core-*.whl
