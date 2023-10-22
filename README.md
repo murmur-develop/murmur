@@ -26,7 +26,7 @@ devcontainer内では以下の方法でアプリケーションを実行でき�
 ```bash
 python src/main.py
 ```
-#### docker compsoe (docker in docker)
+#### docker compose (docker in docker)
 #### build
 ```bash
 docker compose build
