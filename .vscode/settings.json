@@ -1,8 +1,12 @@
 {
-  "python.linting.mypyEnabled": true,
-  "python.linting.enabled": true,
   "[python]": {
     "editor.defaultFormatter": "ms-python.black-formatter",
     "editor.formatOnSave": true
   },
+  "terminal.integrated.profiles.linux": {
+    "zsh": {
+      "path": "/usr/bin/zsh"
+    }
+  },
+  "terminal.integrated.defaultProfile.linux": "zsh",
 }
