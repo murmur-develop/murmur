@@ -18,6 +18,24 @@ docker compose build
 docker compose up
 ```
 
+### VSCode devcontainer
+VSCodeのDevContainer拡張機能を使用して開発環境を共有しています。  
+`.devcontainer`フォルダに設定ファイルがあります。  
+devcontainer内では以下の方法でアプリケーションを実行できます。
+#### python
+```bash
+python src/main.py
+```
+#### docker compose (docker in docker)
+#### build
+```bash
+docker compose build
+```
+#### run
+```bash
+docker compose up
+```
+
 ## commands
 `/join [voice_channel_name]`  
 ボイスチャンネルに接続します。  
