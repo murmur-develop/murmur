@@ -6,7 +6,6 @@ from typing import Callable, Coroutine
 from concurrent.futures import ThreadPoolExecutor
 import asyncio
 from asyncio import AbstractEventLoop, Task
-import math
 
 
 @dataclass

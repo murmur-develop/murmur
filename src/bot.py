@@ -25,7 +25,7 @@ voice_queue = Text2SpeechQueue(bot, voicevox)
 
 @bot.event
 async def on_ready():
-    print(f"Logged in as {bot.user} (ID: {bot.user.id})")
+    print(f"Logged in as {bot.user} (ID: {bot.user.id if bot.user else 'user None'})")
     print("------")
     await bot.tree.sync()
     voice_queue.run()

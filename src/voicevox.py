@@ -1,7 +1,7 @@
 from io import BytesIO
 from dataclasses import dataclass
 import re
-from discord.message import Guild
+from discord.guild import Guild
 import os
 from os import path
 import asyncio

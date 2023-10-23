@@ -59,7 +59,7 @@ class Text2SpeechQueue:
             await asyncio.sleep(0.05)
 
             task = self.shift()
-            if task is not None:
+            if task and task.guild:
                 if task.source and type(task.guild.voice_client) is discord.VoiceClient:
                     task.guild.voice_client.play(task.source, after=after_fn)
                 else:
