@@ -57,12 +57,22 @@ def preprocess_alphabet(text: str):
     )
 
 
+def preprocess_omission_long_text(text: str):
+    # この長さ以下は省略
+    omission_length = 40
+    if len(text) > omission_length:
+        return text[:omission_length] + "以下略"
+    else:
+        return text
+
+
 def preprocess_text(text: str):
     processors = [
         preprocess_url,
         preprocess_emoji,
         preprocess_dup_consonant_alphabet,
         preprocess_alphabet,
+        preprocess_omission_long_text,
     ]
 
     return reduce(lambda p, c: c(p), processors, text)
