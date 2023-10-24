@@ -19,3 +19,4 @@ requests~=2.31
 types-requests~=2.31
 psutil~=5.9.6
 types-psutil~=5.9.5.17
+pytest~=7.4.2
