@@ -1,6 +1,7 @@
 import re, json
 from os import path
 from functools import reduce
+from sys import prefix
 
 
 def load_romanization_table(paths: list[str]):
@@ -57,12 +58,34 @@ def preprocess_alphabet(text: str):
     )
 
 
+def preprocess_omission_long_text(text: str):
+    # この長さ以下は省略
+    omission_length = 40
+    if len(text) > omission_length:
+        return text[:omission_length] + "以下略"
+    else:
+        return text
+
+
+# ;(セミコロン)で始まる行を省略
+def preprocess_ignore_line(text: str):
+    prefix_char = ";"
+    lines = text.split("\n")  # テキストを行に分割
+    filtered_lines = [
+        line for line in lines if not line.strip().startswith(prefix_char)
+    ]
+    result = "\n".join(filtered_lines)  # 行を再結合してテキストに戻す
+    return result
+
+
 def preprocess_text(text: str):
     processors = [
         preprocess_url,
         preprocess_emoji,
         preprocess_dup_consonant_alphabet,
         preprocess_alphabet,
+        preprocess_ignore_line,
+        preprocess_omission_long_text,
     ]
 
     return reduce(lambda p, c: c(p), processors, text)

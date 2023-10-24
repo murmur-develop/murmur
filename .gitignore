@@ -162,6 +162,7 @@ src/audio_tmp/
 
 # voicevox core
 voicevox_core/
+voicevox_core-*.whl
 
 # voicevox downloader
 download.sh
